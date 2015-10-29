@@ -29,32 +29,47 @@ DAMAGE.
 "use strict";
 /* global cordova */
 
-define(['./pcapi', 'records', 'file'], function(pcapi, records, file){
 
-    var EDITOR = "5106d3aa-99ac-4186-b50d-6fcfdf9946f4.edtr";
-    var userId = pcapi.getAnonymousUserId();
+define(['utils', './ext/pcapi', 'records', 'file'], function(utils, pcapi, records, file){
+
+    /**
+     * Download item from cloud provider.
+     * @param options:
+     *   userId - User id (optional)
+     *   fileName - the name of item
+     *   remoteDir - the name of the directory on the server
+     *   localDir - cordova fileEntry pointing to the local directory where the item will be downloaded.
+     *   targetName - the name with which the file will be stored on the phone
+     * @param success Function will be called when item is successfully downloaded.
+     * @param error Function will be called when an error has occurred.
+     */
+    var downloadItem = function(options, success, error) {
+        var itemUrl = pcapi.buildUrl(options.remoteDir, options.fileName);
+        //if there's a userId then change the userID
+        if(options.userId){
+            itemUrl = pcapi.buildUserUrl(options.userId, options.remoteDir, options.fileName);
+        }
+
+        var target = file.getFilePath(options.localDir)+'/'+options.targetName;
+
+        file.ftDownload(itemUrl, target, success, error);
+    };
+
+    var editor = "5106d3aa-99ac-4186-b50d-6fcfdf9946f4.edtr";
+    var userId = utils.getAnonymousUserId();
     var path = records.getEditorsDir(records.EDITOR_GROUP.PUBLIC);
     var options = {
         "userId": userId,
-        "fileName": EDITOR,
+        "fileName": editor,
         "remoteDir": "editors",
         "localDir": path,
-        "targetName": EDITOR
+        "targetName": editor
     };
 
-    var fileName = editor.substring(editor.lastIndexOf('/') + 1, editor.length);
-
-    var itemUrl = pcapi.buildUrl(options.remoteDir, options.fileName);
-    //if there's a userId then change the userID
-    if(options.userId){
-        itemUrl = pcapi.buildUserUrl(options.userId, options.remoteDir, options.fileName);
-    }
-
-    var target = file.getFilePath(options.localDir)+'/'+options.targetName;
-
-    file.ftDownload(itemUrl, target, function(entry){
+    downloadItem(options, function(entry){
         if(entry.name.indexOf(".edtr") > -1){
-            records.addEditor(entry, type);
+            records.addEditor(entry, records.EDITOR_GROUP.PUBLIC);
         }
-    }, error);
+    });
+
 });

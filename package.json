@@ -2,7 +2,7 @@
   "name": "fieldtrip-opal-customisation",
   "version": "0.0.0",
   "description": "A fieldtrip plugin for customising Fieldtrip Open app for OPAL",
-  "main": "src/www/js/opal-custom.js",
+  "main": "src/www/js/opal-customisation.js",
   "scripts": {
     "lint": "node_modules/jshint/bin/jshint src/www/js/**.js",
     "release": "npm run lint && node_modules/release-it/bin/release.js",

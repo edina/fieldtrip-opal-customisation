@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "homepage": "https://github.com/edina/fieldtrip-opal-customisation",
   "description": "A fieldtrip plugin for customising Fieldtrip Open app for OPAL",
-  "main": "src/www/js/opal-custom.js",
+  "main": "src/www/js/opal-customisation.js",
   "dependencies": {
     "pcapi": "0.1.1"
   },
