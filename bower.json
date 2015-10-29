@@ -1,6 +1,6 @@
 {
   "name": "fieldtrip-opal-customisation",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "homepage": "https://github.com/edina/fieldtrip-opal-customisation",
   "description": "A fieldtrip plugin for customising Fieldtrip Open app for OPAL",
   "main": "src/www/js/opal-customisation.js",
